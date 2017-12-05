@@ -4,6 +4,8 @@
   "description": "Forloop Api",
   "main": "index.js",
   "scripts": {
+    "prestart": "npm install",
+    "start": "node index.js",
     "test": "NODE_ENV=test PORT=3010 mocha"
   },
   "repository": {
@@ -24,8 +26,7 @@
     "should": "^13.0.1",
     "sinon": "^3.1.0",
     "sqlite3": "^3.1.10",
-    "supertest": "^3.0.0",
-    "swagger-jsdoc": "^1.9.7"
+    "supertest": "^3.0.0"
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -47,6 +48,7 @@
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^3.0.1",
     "raven": "^2.2.1",
+    "swagger-jsdoc": "^1.9.7",
     "winston": "^2.4.0",
     "winston-mongodb": "^3.0.1"
   }
