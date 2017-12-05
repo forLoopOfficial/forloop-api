@@ -2,6 +2,9 @@
   "MONGO_URL": "MONGO_URL",
   "jwtSecret": "JWT_SECRET",
   "jwtExpiry": "JWT_EXPIRY",
-  "SERVICE_ACCOUNT": "SERVICE_ACCOUNT",
+  "SERVICE_ACCOUNT": {
+    "__name": "SERVICE_ACCOUNT",
+    "__format": "json"
+  },
   "DATABASE_URL": "DATABASE_URL"
 }
