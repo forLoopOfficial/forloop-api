@@ -30,6 +30,7 @@ mongoose.connect(db, err => {
 
 // setup firebase admin access
 const details = config.get('SERVICE_ACCOUNT');
+logger.info('details', details);
 const { projectId, clientEmail, privateKey } = details;
 const credential = admin.credential.cert({
   projectId,
