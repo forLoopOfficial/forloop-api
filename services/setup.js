@@ -29,7 +29,7 @@ mongoose.connect(db, err => {
 });
 
 // setup firebase admin access
-const details = config.get('SERVICE_ACCOUNT');
+const details = JSON.parse(JSON.stringify(config.get('SERVICE_ACCOUNT'))); // hack to allow parsing process.env value
 logger.info('details', details);
 const { projectId, clientEmail, privateKey } = details;
 const credential = admin.credential.cert({
