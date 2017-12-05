@@ -1,0 +1,21 @@
+{
+  "MONGO_URL": "",
+  "useDbUrl": false,
+  "jwtSecret": "",
+  "jwtExpiry": "",
+  "baseUrl": "",
+  "RAVEN_URL": "",
+  "SERVICE_ACCOUNT": {
+    "type": "",
+    "projectId": "",
+    "privateKeyId": "",
+    "privateKey": "",
+    "clientEmail": "",
+    "clientId": "",
+    "authUri": "",
+    "tokenUri": "",
+    "authProviderX509CertUrl": "",
+    "clientX509CertUrl": ""
+  },
+  "DATABASE_URL": ""
+}

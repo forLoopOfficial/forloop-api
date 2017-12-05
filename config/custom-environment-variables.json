@@ -1,0 +1,7 @@
+{
+  "MONGO_URL": "MONGO_URL",
+  "jwtSecret": "JWT_SECRET",
+  "jwtExpiry": "JWT_EXPIRY",
+  "SERVICE_ACCOUNT": "SERVICE_ACCOUNT",
+  "DATABASE_URL": "DATABASE_URL"
+}
