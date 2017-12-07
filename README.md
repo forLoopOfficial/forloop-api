@@ -22,7 +22,7 @@ npm install
 ```shell
 npm start
 ```
-* Navigate to [localhost:3001](http://localhost:3001). Please note `3001` is the default port used, you can change this in `config/local.json`
+* Navigate to [localhost:3001](http://localhost:3001). Please note `3001` is the default port used
 
 ## Contributing
 
