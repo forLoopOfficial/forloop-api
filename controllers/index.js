@@ -4,6 +4,7 @@ const event = require('./event');
 const member = require('./member');
 const page = require('./page');
 const sponsor = require('./sponsor');
+const stat = require('./stat');
 
 module.exports = {
   admin,
@@ -11,5 +12,6 @@ module.exports = {
   event,
   member,
   page,
-  sponsor
+  sponsor,
+  stat
 };

@@ -22,19 +22,14 @@ app.get('/swagger.json', (req, res) => {
   res.send(swaggerSpec);
 });
 
-// app.use(
-//   passport.authenticate('bearer', { session: false, failWithError: true })
-// ); // placed here so that earlier routes can be accessed without authentication
-
 // protected routes ==================================================
 app.use('/api/events', require('./routes/event'));
 app.use('/api/members', require('./routes/member'));
 app.use('/api/pages', require('./routes/page'));
 app.use('/api/countries', require('./routes/country'));
 app.use('/api/sponsors', require('./routes/sponsor'));
+app.use('/api/stats', require('./routes/stat'));
 app.use('/api/auth', require('./routes/auth'));
-
-// app.use(authMiddleware.handleMerchantAccess);
 
 app.use(requestMiddleware.throw404);
 
