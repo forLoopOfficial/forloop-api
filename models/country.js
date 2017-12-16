@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const CountrySchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    active: { type: Boolean, default: false }
+    active: { type: Boolean, default: false },
+    timezone: { type: String, default: 'Africa/Lagos' }
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );

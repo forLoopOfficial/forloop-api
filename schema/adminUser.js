@@ -3,6 +3,7 @@ const Joi = require('joi');
 const create = Joi.object().keys({
   items: Joi.array().items({
     email: Joi.string().email().required(),
+    password: Joi.string().required(),
     username: Joi.string().min(1).max(245),
     first_name: Joi.string().min(1).max(245),
     last_name: Joi.string().min(1).max(245),

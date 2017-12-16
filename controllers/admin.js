@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const Joi = require('joi');
+const promise = require('bluebird');
 
 const auth = require('../services').auth;
 const response = require('../services').response;
@@ -26,7 +27,7 @@ module.exports = {
         return { user: admin, token };
       })
       .then(payload => response.sendSuccess(req, res, { data: payload }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 400 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   create(req, res) {
@@ -35,34 +36,49 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
     const values = validationResult.value.items;
-    return AdminUser.create(values)
-      .then(admins => response.sendSuccess(req, res, { data: admins }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 400 }));
+    const users = values.map(adminUser =>
+      // register admin with firebase auth
+      auth.registerAdmin(adminUser).then(firebaseUser => {
+        adminUser.uid = firebaseUser.uid;
+        return adminUser;
+      })
+    );
+    return promise
+      .all(users)
+      .then(admins => AdminUser.create(admins))
+      .then(admins =>
+        response.sendSuccess(req, res, {
+          data: admins,
+          message: 'Admin(s) Successfully created'
+        })
+      )
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   getProfile(req, res) {
     const user = req.user;
     return AdminUser.findById(user.id)
       .then(admin => response.sendSuccess(req, res, { data: admin }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   get(req, res) {
     const id = req.params.admin;
     return AdminUser.findById(id)
       .then(admin => response.sendSuccess(req, res, { data: admin }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   list(req, res) {
     return AdminUser.find()
+      .populate('country')
       .then(admins => response.sendSuccess(req, res, { data: admins }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 400 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   updateProfile(req, res) {
@@ -73,7 +89,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -82,7 +98,7 @@ module.exports = {
     return AdminUser.update(query, values)
       .then(() => AdminUser.findById(user.id))
       .then(admin => response.sendSuccess(req, res, { data: admin }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   update(req, res) {
@@ -92,7 +108,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -101,7 +117,7 @@ module.exports = {
     return AdminUser.update(query, values)
       .then(() => AdminUser.findById(id))
       .then(admin => response.sendSuccess(req, res, { data: admin }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   delete(req, res) {
@@ -113,6 +129,6 @@ module.exports = {
           message: 'Admin user deleted successfully'
         })
       )
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   }
 };

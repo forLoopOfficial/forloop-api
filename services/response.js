@@ -6,15 +6,14 @@ exports.sendError = (
   res,
   { error = {}, message = 'An Error occurred', status = 404 }
 ) => {
+  if (error.isJoi) {
+    error = parseJoiError(error);
+  }
   if (error instanceof Error) {
     message = error.message;
     status = error.status || status;
     error = {};
   }
-  if (error.isJoi) {
-    error = parseJoiError(error);
-  }
-
   const response = {
     status: false,
     message,
