@@ -1,3 +1,4 @@
+const authMiddleware = require('../middlewares/auth');
 const controllers = require('../controllers');
 const router = require('express').Router();
 
@@ -79,7 +80,12 @@ const router = require('express').Router();
  *       200:
  *         description: Successfully created
  */
-router.post('/', controllers.event.create);
+router.post(
+  '/',
+  authMiddleware.authenticated,
+  authMiddleware.isAdmin,
+  controllers.event.create
+);
 
 /**
  * @swagger
@@ -107,7 +113,7 @@ router.post('/', controllers.event.create);
  *         schema:
  *           $ref: '#/definitions/Event'
  */
-router.get('', controllers.event.list);
+router.get('', authMiddleware.checkAuth, controllers.event.list);
 
 /**
  * @swagger

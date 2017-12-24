@@ -25,6 +25,7 @@ app.get('/swagger.json', (req, res) => {
 // protected routes ==================================================
 app.use('/api/events', require('./routes/event'));
 app.use('/api/members', require('./routes/member'));
+app.use('/api/team', require('./routes/team'));
 app.use('/api/pages', require('./routes/page'));
 app.use('/api/countries', require('./routes/country'));
 app.use('/api/sponsors', require('./routes/sponsor'));

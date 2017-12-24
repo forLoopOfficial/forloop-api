@@ -71,7 +71,7 @@ router.get('', controllers.page.list);
  *       - application/json
  *     parameters:
  *       - name: id
- *         description: Pages's id
+ *         description: Pages's id or name
  *         in: path
  *         required: true
  *         type: string
