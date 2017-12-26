@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const EventSchema = new mongoose.Schema(
   {
+    firebase_id: { type: String },
     title: { type: String, required: true },
     url_slug: { type: String, required: true },
     published: { type: Boolean, default: false },
@@ -12,7 +13,7 @@ const EventSchema = new mongoose.Schema(
     country: { type: mongoose.Schema.Types.ObjectId, ref: 'Country' },
     attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Member' }],
     when: {
-      date: { type: String, required: true },
+      date: { type: Number, required: true },
       date_formatted: { type: String, required: true },
       to: {
         A: { type: String, required: true },

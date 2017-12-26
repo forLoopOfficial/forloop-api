@@ -37,6 +37,7 @@ module.exports = {
   getBySlug(req, res) {
     const slug = req.params.slug;
     return Event.findOne({ url_slug: slug })
+      .populate('attendees')
       .then(event => {
         if (_.isEmpty(event)) {
           throw new Error('Event not found');
