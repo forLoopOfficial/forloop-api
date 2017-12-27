@@ -21,7 +21,7 @@ module.exports = {
       });
     }
     const values = validationResult.value;
-    values.created_by = user.id;
+    values.created_by = user._id;
     return Event.create(values)
       .then(event => response.sendSuccess(req, res, { data: event }))
       .catch(err => response.sendError(req, res, { error: err, status: 400 }));
@@ -57,6 +57,8 @@ module.exports = {
       else delete query.published;
     }
     return Event.find(query)
+      .populate('country')
+      .sort({ created_at: -1 })
       .then(events => response.sendSuccess(req, res, { data: events }))
       .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },

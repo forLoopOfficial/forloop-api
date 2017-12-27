@@ -1,5 +1,6 @@
 // grab the mongoose module
 const mongoose = require('mongoose');
+const uniqid = require('uniqid');
 
 const EventSchema = new mongoose.Schema(
   {
@@ -9,6 +10,7 @@ const EventSchema = new mongoose.Schema(
     published: { type: Boolean, default: false },
     description: { type: String, required: true },
     background_image_url: { type: String, required: true },
+    resource_url: { type: String },
     created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'AdminUser' },
     country: { type: mongoose.Schema.Types.ObjectId, ref: 'Country' },
     attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Member' }],
@@ -60,5 +62,18 @@ const EventSchema = new mongoose.Schema(
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );
 
+// hooks
+EventSchema.pre('validate', function generateSlug(next) {
+  const prefix = this.title
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/&/g, '-and-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-');
+  this.url_slug = uniqid(prefix);
+  next();
+});
 // define our event model
 module.exports = mongoose.model('Event', EventSchema);

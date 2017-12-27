@@ -15,7 +15,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -27,20 +27,20 @@ module.exports = {
           message: 'Sponsor(s) created successfully'
         })
       )
-      .catch(err => response.sendError(req, res, { errors: err, status: 400 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   get(req, res) {
     const id = req.params.sponsor;
     return Sponsor.findById(id)
       .then(sponsor => response.sendSuccess(req, res, { data: sponsor }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   list(req, res) {
     return Sponsor.find()
       .then(countries => response.sendSuccess(req, res, { data: countries }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 400 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   update(req, res) {
@@ -50,7 +50,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -59,7 +59,7 @@ module.exports = {
     return Sponsor.update(query, values)
       .then(() => Sponsor.findById(id))
       .then(sponsor => response.sendSuccess(req, res, { data: sponsor }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   bulkUpdate(req, res) {
@@ -68,7 +68,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -89,7 +89,7 @@ module.exports = {
           message: 'Sponsor(s) updated successfully'
         })
       )
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   delete(req, res) {
@@ -101,7 +101,7 @@ module.exports = {
           message: 'Sponsor deleted successfully'
         })
       )
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   bulkDelete(req, res) {
@@ -110,7 +110,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -126,6 +126,6 @@ module.exports = {
           message: 'Sponsor(s) deleted successfully'
         })
       )
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   }
 };

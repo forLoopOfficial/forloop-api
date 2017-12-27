@@ -15,27 +15,27 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
     const values = validationResult.value.items;
     return Country.create(values)
       .then(countries => response.sendSuccess(req, res, { data: countries }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 400 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   get(req, res) {
     const id = req.params.country;
     return Country.findById(id)
       .then(country => response.sendSuccess(req, res, { data: country }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   list(req, res) {
     return Country.find()
       .then(countries => response.sendSuccess(req, res, { data: countries }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 400 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   update(req, res) {
@@ -45,7 +45,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -54,7 +54,7 @@ module.exports = {
     return Country.update(query, values)
       .then(() => Country.findById(id))
       .then(country => response.sendSuccess(req, res, { data: country }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   bulkUpdate(req, res) {
@@ -63,7 +63,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -84,7 +84,7 @@ module.exports = {
           message: 'Countries updated successfully'
         })
       )
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   delete(req, res) {
@@ -96,7 +96,7 @@ module.exports = {
           message: 'Country deleted successfully'
         })
       )
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   bulkDelete(req, res) {
@@ -105,7 +105,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -121,6 +121,6 @@ module.exports = {
           message: 'Countries deleted successfully'
         })
       )
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   }
 };

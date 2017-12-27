@@ -16,14 +16,14 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
     const values = validationResult.value.items;
     return Page.create(values)
       .then(pages => response.sendSuccess(req, res, { data: pages }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 400 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   get(req, res) {
@@ -41,13 +41,13 @@ module.exports = {
         throw err;
       })
       .then(page => response.sendSuccess(req, res, { data: page }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   list(req, res) {
     return Page.find()
       .then(pages => response.sendSuccess(req, res, { data: pages }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 400 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   update(req, res) {
@@ -57,7 +57,7 @@ module.exports = {
 
     if (!_.isEmpty(validationResult.error)) {
       return response.sendError(req, res, {
-        errors: validationResult.error,
+        error: validationResult.error,
         status: 422
       });
     }
@@ -66,7 +66,7 @@ module.exports = {
     return Page.update(query, values)
       .then(() => Page.findById(id))
       .then(page => response.sendSuccess(req, res, { data: page }))
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   },
 
   delete(req, res) {
@@ -78,6 +78,6 @@ module.exports = {
           message: 'Page deleted successfully'
         })
       )
-      .catch(err => response.sendError(req, res, { errors: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   }
 };

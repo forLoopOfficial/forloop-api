@@ -17,5 +17,9 @@
     "authProviderX509CertUrl": "",
     "clientX509CertUrl": ""
   },
-  "DATABASE_URL": ""
+  "DATABASE_URL": "",
+  "TWITTER_API_KEY": "",
+  "TWITTER_API_SECRET": "",
+  "MAILCHIMP_API_KEY": "",
+  "SUBSCRIBER_LIST": ""
 }

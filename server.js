@@ -32,6 +32,7 @@ app.use('/api/sponsors', require('./routes/sponsor'));
 app.use('/api/stats', require('./routes/stat'));
 app.use('/api/admins', require('./routes/admin'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/miscs', require('./routes/misc'));
 
 app.use(requestMiddleware.throw404);
 

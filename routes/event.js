@@ -181,7 +181,12 @@ router.get('/:event', controllers.event.get);
  *       200:
  *         description: Successfully updated
  */
-router.put('/:event', controllers.event.update);
+router.put(
+  '/:event',
+  authMiddleware.authenticated,
+  authMiddleware.isAdmin,
+  controllers.event.update
+);
 
 /**
  * @swagger
@@ -222,6 +227,11 @@ router.post('/:event/attend', controllers.event.attend);
  *       200:
  *         description: Successfully deleted
  */
-router.delete('/:event', controllers.event.delete);
+router.delete(
+  '/:event',
+  authMiddleware.authenticated,
+  authMiddleware.isAdmin,
+  controllers.event.delete
+);
 
 module.exports = router;
