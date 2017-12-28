@@ -46,7 +46,7 @@ module.exports = {
   },
 
   getProfile(req, res) {
-    console.log('user', req.user);
+    logger.debug('user', req.user);
     const user = req.user;
     return Member.findById(user._id)
       .then(member => response.sendSuccess(req, res, { data: member }))

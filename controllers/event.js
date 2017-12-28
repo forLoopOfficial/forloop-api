@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const Joi = require('joi');
+const uniqid = require('uniqid');
 
 const response = require('../services').response;
 const logger = require('../services').logger;
@@ -21,6 +22,17 @@ module.exports = {
       });
     }
     const values = validationResult.value;
+    // generate slug for event
+    const prefix = values.title
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/&/g, '-and-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-');
+    values.url_slug = uniqid(prefix);
+    // keep track of who created the event
     values.created_by = user._id;
     return Event.create(values)
       .then(event => response.sendSuccess(req, res, { data: event }))
@@ -44,7 +56,7 @@ module.exports = {
         }
         response.sendSuccess(req, res, { data: event });
       })
-      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
+      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   },
 
   list(req, res) {
@@ -99,10 +111,17 @@ module.exports = {
     const id = req.params.event;
     return Event.findById(id)
       .then(event => {
-        // push member id into attendees property of event
-        event.attendees.push(user.id);
+        // check if member is already attending to avoid dup
+        const isAttending = event.attendees.find(
+          attendee => attendee.toString() === user._id.toString()
+        );
+        if (_.isEmpty(isAttending)) {
+          // push member id into attendees property of event
+          event.attendees.push(user._id);
+        }
         return event.save();
       })
+      .then(event => event.populate('attendees').execPopulate())
       .then(event => response.sendSuccess(req, res, { data: event }))
       .catch(err => response.sendError(req, res, { error: err, status: 500 }));
   }

@@ -206,7 +206,11 @@ router.put(
  *       200:
  *         description: Successfully attending
  */
-router.post('/:event/attend', controllers.event.attend);
+router.post(
+  '/:event/attend',
+  authMiddleware.authenticated,
+  controllers.event.attend
+);
 
 /**
  * @swagger
