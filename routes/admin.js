@@ -1,6 +1,8 @@
-const controllers = require('../controllers');
 const router = require('express').Router();
+const authMiddleware = require('../middlewares/auth');
+const controllers = require('../controllers');
 
+router.use(authMiddleware.authenticated);
 /**
  * @swagger
  * definitions:
@@ -47,7 +49,7 @@ const router = require('express').Router();
  *       200:
  *         description: Successfully created
  */
-router.post('/', controllers.admin.create);
+router.post('/', authMiddleware.isAdmin, controllers.admin.create);
 
 /**
  * @swagger

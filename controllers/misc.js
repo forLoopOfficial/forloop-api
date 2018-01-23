@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const config = require('config');
 const Twitter = require('twitter');
+const axios = require('axios');
 
 const response = require('../services').response;
 const logger = require('../services').logger;
@@ -21,8 +22,25 @@ module.exports = {
   },
 
   subscribeMailChimp(req, res) {
-    return Page.find()
-      .then(pages => response.sendSuccess(req, res, { data: pages }))
+    const email = req.body.email;
+    const apiKey = config.get('MAILCHIMP_API_KEY');
+    const apiUrl = config.get('MAILCHIMP_URL');
+    const list = config.get('SUBSCRIBER_LIST');
+    const url = `${apiUrl}/lists/${list}/members`;
+    const body = {
+      email_address: email,
+      status: 'subscribed'
+    };
+    const configObj = {
+      auth: {
+        username: 'hello',
+        password: apiKey
+      }
+    };
+    logger.info('body', body);
+    return axios
+      .post(url, body, configObj)
+      .then(data => response.sendSuccess(req, res, { data: data.data }))
       .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   }
 };
