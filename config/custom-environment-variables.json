@@ -2,6 +2,7 @@
   "MONGO_URL": "MONGO_URL",
   "jwtSecret": "JWT_SECRET",
   "jwtExpiry": "JWT_EXPIRY",
+  "RAVEN_URL": "RAVEN_URL",
   "SERVICE_ACCOUNT": {
     "__name": "SERVICE_ACCOUNT",
     "__format": "json"

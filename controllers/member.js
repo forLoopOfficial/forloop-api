@@ -17,8 +17,13 @@ module.exports = {
     return Member.findOne(query)
       .then(member => {
         if (_.isEmpty(member)) {
-          // send out if member has not signed up
-          throw new Error('Please create an account');
+          // create new member object
+          const values = _.pick(user, ['uid', 'displayName', 'email']);
+          values.name = values.displayName;
+          return Member.create(values).then(newMember => {
+            const token = auth.issueToken(newMember);
+            return { user: newMember, token };
+          });
         }
 
         const tokenPayload = _.omit(member, 'events');

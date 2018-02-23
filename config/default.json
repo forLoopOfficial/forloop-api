@@ -20,6 +20,7 @@
   "DATABASE_URL": "",
   "TWITTER_API_KEY": "",
   "TWITTER_API_SECRET": "",
+  "MAILCHIMP_URL": "",
   "MAILCHIMP_API_KEY": "",
   "SUBSCRIBER_LIST": ""
 }
