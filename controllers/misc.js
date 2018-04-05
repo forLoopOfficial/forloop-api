@@ -41,6 +41,17 @@ module.exports = {
     return axios
       .post(url, body, configObj)
       .then(data => response.sendSuccess(req, res, { data: data.data }))
+      .catch(error => {
+        const errData = error.response && error.response.data;
+        if (errData) {
+          if (errData.title === 'Member Exists') {
+            return response.sendSuccess(req, res, {
+              message: 'Member already subscribed'
+            });
+          }
+        }
+        throw error;
+      })
       .catch(err => response.sendError(req, res, { error: err, status: 400 }));
   }
 };
