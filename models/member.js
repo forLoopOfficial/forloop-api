@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const MemberSchema = new mongoose.Schema(
   {
     uid: { type: String, unique: true, required: true },
-    name: { type: String, required: true },
-    display_name: { type: String, required: true },
+    name: { type: String, required: false },
+    display_name: { type: String, required: false },
     email: { type: String },
     github: { type: String },
     twitter: { type: String },
