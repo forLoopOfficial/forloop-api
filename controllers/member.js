@@ -19,11 +19,13 @@ module.exports = {
       .then(member => {
         if (_.isEmpty(member)) {
           // create new member object
-          const values = _.pick(user, ['uid', 'displayName', 'email']);
-          values.name = values.displayName || ' ';
-          values.display_name = values.displayName || ' ';
+          const values = _.pick(user, ['uid']);
+          values.name = ' ';
+          values.display_name = values.name;
           return Member.create(values).then(newMember => {
-            const token = auth.issueToken(newMember);
+            logger.info('login user', newMember);
+            const tokenPayload = _.omit(newMember, 'events');
+            const token = auth.issueToken(tokenPayload);
             return { user: newMember, token };
           });
         }
