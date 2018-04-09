@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const Joi = require('joi');
+const Raven = require('raven');
 
 const auth = require('../services').auth;
 const logger = require('../services').logger;
@@ -31,7 +32,10 @@ module.exports = {
         return { user: member, token };
       })
       .then(payload => response.sendSuccess(req, res, { data: payload }))
-      .catch(err => response.sendError(req, res, { error: err, status: 400 }));
+      .catch(err => {
+        Raven.captureException(err);
+        response.sendError(req, res, { error: err, status: 400 });
+      });
   },
 
   create(req, res) {

@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const Joi = require('joi');
 const uniqid = require('uniqid');
+const Raven = require('raven');
 
 const response = require('../services').response;
 const logger = require('../services').logger;
@@ -123,6 +124,9 @@ module.exports = {
       })
       .then(event => event.populate('attendees').execPopulate())
       .then(event => response.sendSuccess(req, res, { data: event }))
-      .catch(err => response.sendError(req, res, { error: err, status: 500 }));
+      .catch(err => {
+        Raven.captureException(err);
+        response.sendError(req, res, { error: err, status: 500 });
+      });
   }
 };

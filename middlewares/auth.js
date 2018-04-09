@@ -1,4 +1,5 @@
 const admin = require('firebase-admin');
+const Raven = require('raven');
 
 const response = require('../services/response');
 const logger = require('../services/logger');
@@ -15,6 +16,7 @@ exports.verifyIdToken = (req, res, next) => {
     })
     .catch(error => {
       // Handle error
+      Raven.captureException(error);
       response.sendError(req, res, { error });
     });
 };
