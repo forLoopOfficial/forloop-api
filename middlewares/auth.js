@@ -11,6 +11,9 @@ exports.verifyIdToken = (req, res, next) => {
     .auth()
     .verifyIdToken(token)
     .then(decodedToken => {
+      Raven.setContext({
+        user: decodedToken
+      });
       req.user = decodedToken;
       next();
     })
