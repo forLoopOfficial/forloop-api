@@ -20,8 +20,8 @@ module.exports = {
         if (_.isEmpty(member)) {
           // create new member object
           const values = _.pick(user, ['uid', 'displayName', 'email']);
-          values.name = values.displayName;
-          values.display_name = values.displayName;
+          values.name = values.displayName || ' ';
+          values.display_name = values.displayName || ' ';
           return Member.create(values).then(newMember => {
             const token = auth.issueToken(newMember);
             return { user: newMember, token };
