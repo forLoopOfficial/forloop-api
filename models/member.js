@@ -17,7 +17,10 @@ const MemberSchema = new mongoose.Schema(
     location: { type: String },
     country: { type: mongoose.Schema.Types.ObjectId, ref: 'Country' }
   },
-  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+  {
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    usePushEach: true
+  }
 );
 
 // define our member model

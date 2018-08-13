@@ -58,7 +58,10 @@ const EventSchema = new mongoose.Schema(
       name: { type: String, required: true }
     }
   },
-  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+  {
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    usePushEach: true
+  }
 );
 
 // define our event model
